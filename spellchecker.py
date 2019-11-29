@@ -78,13 +78,18 @@ if __name__ == '__main__':
     #print(spell_checker.check_word('mistasdas'))
     #print(spell_checker.check_words('zygotic mistasdas elementary'))
     i = 1
+    
+    ############################ Search Directory for Misspelt word ############################ 
+    # Created a Directory called Directory and added .txt files
+    # Prints File name and number 
     for name in glob.glob('Directory/*'):
         
-        print('File ',i,spell_checker.check_document(name))
+        print(name,"(File",i,")","\n",spell_checker.check_document(name),"\n")
         i = i + 1
         
         
-        
+    ############################################################################################
+     
   
     
     
