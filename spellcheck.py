@@ -1,40 +1,35 @@
-# -*- coding: utf-8 -*-
-import unittest
-import glob
+# to begin we start with a list of words in a file called spell.words
+# we read the file and strip out the file endings
+words = open('spell.words').readlines()
+words = map(lambda x: x.strip(), words)
+# now check if the word zygotic is a word
+#print('zygotic' in words)
 
-from spellchecker import SpellChecker
 
-class TestSpellChecker(unittest.TestCase):
+# Check a Word
+def load_words(file_name):
+    words = open(file_name).readlines()
+    return list (map(lambda x: x.strip(), words))
 
-    def setUp(self):
-        self.spellChecker = SpellChecker()
-        self.spellChecker.load_words('spell.words')
+def check_word(words, word):
+    return word in words
 
-    def test_dictionary_of_words(self):
-        self.assertTrue(len(self.spellChecker.words) == 53751) 
+###### words = load_words('spell.words')
+# now check if the word zygotic is a word
+###### print(check_word(words, 'zygotic'))
 
-    def test_spell_checker(self):
-        self.assertTrue(self.spellChecker.check_word('zygotic'))
-        self.assertFalse(self.spellChecker.check_word('mistasdas'))
-        self.assertTrue(
-            len(self.spellChecker.check_words('zygotic mistasdas elementary')) == 1)
-        self.assertTrue(len(self.spellChecker.check_words('our first correct sentence')) == 0)
-        self.assertTrue(len(self.spellChecker.check_words('Our first correct sentence.')) == 0)
-        failed_words = self.spellChecker.check_words('zygotic mistasdas spelllleeeing elementary')
-        self.assertTrue(len(failed_words) == 2)
-        self.assertTrue(failed_words[0]['word'] == 'mistasdas')
-        self.assertTrue(failed_words[0]['line'] == 1)
-        self.assertEquals(9, failed_words[0]['pos'])
-        self.assertEquals('spelling', failed_words[0]['type'])
-        self.assertTrue(failed_words[1]['word'] == 'spelllleeeing')
-        self.assertTrue(failed_words[1]['line'] == 1)
-        self.assertTrue(failed_words[1]['pos'] == 19)
-        self.assertEquals('spelling', failed_words[1]['type'])
-        #self.assertEquals(0,
-        #    len(self.spellChecker.check_document('spell.words')))
-        failed_profane_words = self.spellChecker.check_document('profanity.txt')
-        self.assertEquals(3, len(failed_profane_words))
-        self.assertEquals('profanity', failed_profane_words[0]['type'])
+# Check a sentence
+def check_words(words, sentence):
+    words_to_check = sentence.split(' ')
+    for word in words_to_check:
+        if not check_word(words, word):
+            print('Word is misspelt : ' + word)
+            return False
+    return True
 
-if __name__ == '__main__':
-    unittest.main()
+#words = load_words('spell.words')
+#print(check_word(words, 'zygotic'))
+print(check_words(words, 'zygotic mistasdas elementary'))
+
+
+
