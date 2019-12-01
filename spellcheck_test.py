@@ -1,5 +1,5 @@
 import unittest
-
+import glob
 from spellchecker import SpellChecker
 
 class TestSpellChecker(unittest.TestCase):
@@ -29,6 +29,12 @@ class TestSpellChecker(unittest.TestCase):
         #self.assertEqual(1, failed_words[1]['line'])
         #self.assertEqual(19, failed_words[1]['pos'])
         #self.assertEqual(0, len(self.spellChecker.check_document('spell.words')))
+        
+        ############################ Unit Test for a directory of files ############################
+        for name in glob.glob('Directory/*'):
+            self.assertEqual(0, len(self.spellChecker.check_document(name)))
+
+        ############################################################################################
 
 if __name__ == '__main__':
     unittest.main()
